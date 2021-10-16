@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 struct college; 
 
@@ -16,6 +17,7 @@ int main();
 struct college *generate_college();
 void print_college(struct college *uni);
 void print_list(struct college *c); 
+struct college *insert_front(struct college *head, char *n, char *place,int body, int div);
 struct college *free_list(struct college *c);
 
 int main() {
@@ -23,18 +25,19 @@ int main() {
   struct college *michtech;
   struct college *dartmouth;
   
-  while (1 || getchar()) {
-    uc = generate_college("University of Chicago","Chicago, IL",6989,3);
-    michtech = generate_college("Michigan Technological University","Houghton, MI",5642,2);
-    dartmouth = generate_college("Dartmouth College","Hanover, NH",4170,1);
+  srand(time(NULL));
+  
+  // Construct list 
+  dartmouth = generate_college("Dartmouth College","Hanover, NH",rand(),1);
+  michtech = insert_front(dartmouth,"Michigan Technological University","Houghton, MI",rand(),2);
+  uc = insert_front(michtech,"University of Chicago","Chicago, IL",rand(),3);
 
-    uc->next = michtech;
-    michtech->next = dartmouth;
-    print_list(uc);
+  // Print list 
+  print_list(uc);
 
-    free_list(uc);
+  // Free memory associated to list
+  free_list(uc);
     
-  }
   return 0;
 }
 struct college *generate_college(char *n, char *place,int body, int div) {
@@ -61,6 +64,11 @@ void print_list(struct college *c) {
     print_college(c); 
     c = c->next;
   }
+}
+struct college *insert_front(struct college *head, char *n, char *place,int body, int div) {
+  struct college *new = generate_college(n,place,body,div);
+  new->next = head;
+  return new;
 }
 struct college *free_list(struct college *c) {
   if (c->next) {
