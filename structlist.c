@@ -42,9 +42,9 @@ int main() {
 }
 struct college *generate_college(char *n, char *place,int body, int div) {
   struct college *u = malloc(sizeof(struct college));
-  u->name = malloc(strlen(n));
+  u->name = malloc(strlen(n)+1);
   strcpy(u->name,n);
-  u->location = malloc(strlen(place));
+  u->location = malloc(strlen(place)+1);
   strcpy(u->location,place);
   u->student_population = body; 
   u->ncaa_div = div;
